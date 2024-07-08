@@ -1,0 +1,1 @@
+# Walang - Japanese programming language
