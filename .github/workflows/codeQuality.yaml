@@ -1,0 +1,24 @@
+name: Code Quality
+
+on: push
+
+jobs:
+  codeQuality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - name: Formatting
+        run: deno fmt --check
+      - name: Linting
+        run: deno lint
+      - name: Testing
+        run: deno test --allow-all --coverage=cov/
+      - name: Coverage
+        run: deno coverage --lcov cov/ > cov.lcov
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
